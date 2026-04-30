@@ -13,7 +13,7 @@ WORKDIR /home/builder
 
 # Install android-ndk-beta and android-sdk from AUR
 # We use --noconfirm to avoid interactive prompts
-RUN paru -S --noconfirm android-ndk-beta android-sdk
+RUN paru -S --noconfirm android-ndk android-ndk-beta android-sdk
 
 # Set environment variables
 ENV ANDROID_HOME=/opt/android-sdk
