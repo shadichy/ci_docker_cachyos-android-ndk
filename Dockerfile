@@ -32,6 +32,7 @@ RUN repo sync -c -j$(nproc) --no-clone-bundle --no-tags --fail-fast --optimized-
 
 # Link prebuilt go
 USER root
+RUN mkdir -p /aosptree/prebuilts/go/
 RUN ln -sf /opt/android/go /aosptree/prebuilts/go/linux-x86
 
 # Final cleanup
