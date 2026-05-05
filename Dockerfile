@@ -18,12 +18,16 @@ ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_NDK_HOM
 
 # Copy manifest and sync aosptree
 USER root
-COPY manifest.xml /tmp/manifest.xml
-RUN mkdir -p /aosptree
-WORKDIR /aosptree
+RUN mkdir -p /aosptree /tmp/manifest
+COPY manifest.xml /tmp/manifest/manifest.xml
+WORKDIR /tmp/manifest
 RUN git config --global user.email "ci@example.com"
 RUN git config --global user.name "CI Builder"
-RUN repo init -u /tmp/manifest.xml --depth 1
+RUN git init
+RUN git add .
+RUN git commit -m "Initial commit"
+WORKDIR /aosptree
+RUN repo init -u /tmp/manifest --depth 1
 RUN repo sync -c -j$(nproc) --no-clone-bundle --no-tags --fail-fast --optimized-fetch --prune
 
 # Link prebuilt go
