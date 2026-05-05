@@ -1,11 +1,7 @@
 FROM ghcr.io/shadichy/cachyos-android-ci:latest
 
 # Install paru, sudo, repo and git
-RUN pacman -Sy --noconfirm paru sudo repo git
-
-# Create a builder user for AUR packages
-RUN useradd -m builder && \
-    echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+RUN pacman -Syyu --noconfirm --needed paru sudo repo git
 
 # Switch to builder user
 USER builder
@@ -13,7 +9,7 @@ WORKDIR /home/builder
 
 # Install android-ndk-beta, android-sdk and go-android-bin from AUR
 # We use --noconfirm --skipreview --batchinstall to avoid interactive prompts
-RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk go-android-bin nasm yasm meson ninja mesa glu libdrm libva dav1d libx86 libpulse alsa-lib libxv libxcb libvdpau libglvnd cmake
+RUN paru -S --noconfirm --skipreview --batchinstall --needed android-ndk android-ndk-beta android-sdk go-android-bin nasm yasm meson ninja mesa glu libdrm libva dav1d libx86 libpulse alsa-lib libxv libxcb libvdpau libglvnd cmake
 
 # Set environment variables
 ENV ANDROID_HOME=/opt/android-sdk
