@@ -19,7 +19,7 @@ ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_NDK_HOM
 # Copy manifest and sync aosptree
 USER root
 RUN mkdir -p /aosptree /tmp/manifest
-COPY manifest.xml /tmp/manifest/manifest.xml
+COPY manifest.xml /tmp/manifest/default.xml
 WORKDIR /tmp/manifest
 RUN git config --global user.email "ci@example.com"
 RUN git config --global user.name "CI Builder"
