@@ -13,7 +13,7 @@ WORKDIR /home/builder
 
 # Install android-ndk-beta and android-sdk from AUR
 # We use --noconfirm --skipreview --batchinstall to avoid interactive prompts
-RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk nasm yasm meson ninja mesa glu libdrm libva dav1d libx86 libpulse alsa-lib libxv libxcb libvdpau libglvnd cmake
+RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk nasm yasm meson ninja mesa glu libdrm libva dav1d libx86 libpulse alsa-lib libxv libxcb libvdpau libglvnd cmake rsync
 
 # Set environment variables
 ENV ANDROID_HOME=/opt/android-sdk
