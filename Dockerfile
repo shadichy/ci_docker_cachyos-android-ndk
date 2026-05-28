@@ -1,4 +1,4 @@
-FROM ghcr.io/shadichy/cachyos-ci:latest
+FROM ghcr.io/shadichy/cachyos-ci:latest-v3
 
 # Install paru and sudo
 RUN pacman -Sy --noconfirm paru sudo
