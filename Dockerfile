@@ -13,20 +13,24 @@ WORKDIR /home/builder
 
 # Install android-ndk-beta and android-sdk from AUR
 # We use --noconfirm --skipreview --batchinstall to avoid interactive prompts
-RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk nasm yasm meson ninja cmake rsync pigz android-sdk-build-tools android-tools e2fsprogs erofs-utils openssl unzip zip android-platform-{29,32,33,34,35,36} meson ninja
+RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk android-sdk-build-tools android-tools android-platform-{29,32,33,34,35,36} nasm yasm meson ninja cmake e2fsprogs erofs-utils openssl unzip zip
+# No need android-vndk-{32,33,34}
 
 # Setup makeapex
 RUN git clone --depth 1 https://github.com/ag-sdc/makeapex makeapex
 WORKDIR /home/builder/makeapex/.ci/dist
 RUN makepkg -fisd --noconfirm
+
+# Setup apex-install
+RUN git clone --depth 1 https://github.com/ag-sdc/apex-install apex-install
+WORKDIR /home/builder/apex-install/.ci/dist
+RUN makepkg -fisd --noconfirm
+
+# Cleanup
 WORKDIR /home/builder
-RUN rm -rf makeapex
-
-# Set environment variables
-ENV ANDROID_HOME=/opt/android-sdk
-ENV ANDROID_NDK_HOME=/opt/android-ndk
-ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_NDK_HOME
-
-# Switch back to root for final cleanup or further system tasks if needed
-USER root
+RUN rm -rf makeapex apex-install
 RUN yes | paru -Scc
+RUN rm -rf .cache /var/cache/pacman/pkg/*
+
+# Switch back to root
+USER root
