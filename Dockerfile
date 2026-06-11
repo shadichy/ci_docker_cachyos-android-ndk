@@ -21,13 +21,16 @@ RUN git clone --depth 1 https://github.com/ag-sdc/makeapex makeapex
 WORKDIR /home/builder/makeapex/.ci/dist
 RUN makepkg -fisd --noconfirm
 
+WORKDIR /home/builder
+
 # Setup apex-install
 RUN git clone --depth 1 https://github.com/ag-sdc/apex-install apex-install
 WORKDIR /home/builder/apex-install/.ci/dist
 RUN makepkg -fisd --noconfirm
 
-# Cleanup
 WORKDIR /home/builder
+
+# Cleanup
 RUN rm -rf makeapex apex-install
 RUN yes | paru -Scc
 RUN rm -rf .cache /var/cache/pacman/pkg/*
