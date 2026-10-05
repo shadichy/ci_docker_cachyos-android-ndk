@@ -11,9 +11,15 @@ RUN useradd -m builder && \
 USER builder
 WORKDIR /home/builder
 
-# Install android-ndk-beta and android-sdk from AUR
+# Install android-ndk-beta, android-sdk, and host build dependencies for igt-gpu-tools and tooling
 # We use --noconfirm --skipreview --batchinstall to avoid interactive prompts
-RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk android-sdk-build-tools android-tools android-platform-{29,32,33,34,35,36} android-vndk-{32,33,34} nasm yasm meson ninja cmake e2fsprogs erofs-utils openssl unzip zip go
+RUN paru -S --noconfirm --skipreview --batchinstall \
+    android-ndk android-ndk-beta android-sdk android-sdk-build-tools android-tools \
+    android-platform-{29,32,33,34,35,36} android-vndk-{32,33,34} \
+    nasm yasm meson ninja cmake e2fsprogs erofs-utils openssl unzip zip go \
+    libprocps cairo pixman libunwind valgrind dtc cpputest \
+    wayland wayland-protocols xkeyboard-config libbpf libpciaccess pciutils kmod elfutils libdrm \
+    glib2 bison flex kotlin llvm clang protobuf
 
 # Setup makeapex
 RUN git clone --depth 1 https://github.com/ag-sdc/makeapex makeapex
