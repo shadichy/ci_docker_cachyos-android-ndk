@@ -13,7 +13,7 @@ WORKDIR /home/builder
 
 # Install android-ndk-beta and android-sdk from AUR
 # We use --noconfirm --skipreview --batchinstall to avoid interactive prompts
-RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk nasm yasm meson ninja mesa glu libdrm libva dav1d libx86 libpulse alsa-lib libxv libxcb libvdpau libglvnd
+RUN paru -S --noconfirm --skipreview --batchinstall android-ndk android-ndk-beta android-sdk android-sdk-build-tools android-platform{,-{32,33,34,35,36}} jdk17-openjdk
 
 # Set environment variables
 ENV ANDROID_HOME=/opt/android-sdk
@@ -23,3 +23,6 @@ ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_NDK_HOM
 # Switch back to root for final cleanup or further system tasks if needed
 USER root
 RUN yes | paru -Scc
+
+# Accept licenses
+RUN yes | /opt/android-sdk/tools/bin/sdkmanager --licenses
