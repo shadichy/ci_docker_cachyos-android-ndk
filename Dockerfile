@@ -46,3 +46,8 @@ RUN rm -rf .cache /var/cache/pacman/pkg/*
 
 # Switch back to root
 USER root
+
+# Configure makeapex DLAGENTS for HTTPS source downloading and install flatbuffers host tool
+RUN sed -n '/^DLAGENTS=/,/)/p' /etc/makepkg.conf >> /etc/makeapex.conf && \
+    pacman -Sy --noconfirm flatbuffers && \
+    rm -rf /var/cache/pacman/pkg/*
