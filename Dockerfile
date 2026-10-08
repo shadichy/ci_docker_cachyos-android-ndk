@@ -7,6 +7,10 @@ RUN pacman -Sy --noconfirm paru sudo
 RUN useradd -m builder && \
     echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
 
+# Ensure portable x86-64-v2 microarchitecture instead of -march=native to prevent SIGILL on non-AVX512 runners
+RUN sed -i 's/-march=native/-march=x86-64-v2/g' /etc/makepkg.conf
+ENV GOAMD64=v2
+
 # Switch to builder user
 USER builder
 WORKDIR /home/builder
